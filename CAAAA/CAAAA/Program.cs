@@ -2,11 +2,11 @@
 using System;
 using System.Collections.Generic;
 
-namespace LogicalExpressions
+namespace LogicalExpressionEvaluator
 {
     class Program
     {
-        static void Main()
+        static void Main(string[] args)
         {
             // Create a dictionary to store the logical functions
             Dictionary<string, string> functions = new Dictionary<string, string>();
@@ -14,6 +14,33 @@ namespace LogicalExpressions
             // Read the expression from the console
             Console.WriteLine("Please enter the logical expression:");
             string expression = Console.ReadLine();
+
+            // Parse and check for the correct number of parentheses
+            int openParenCount = 0;
+            int closeParenCount = 0;
+            foreach (char c in expression)
+            {
+                // Check for unbalanced parentheses
+                if (c == '(')
+                {
+                    openParenCount++;
+                }
+                else if (c == ')')
+                {
+                    closeParenCount++;
+                }
+                // Check for invalid characters
+                else if (c != '&' && c != '|' && c != '!')
+                {
+                    Console.WriteLine("Error: Invalid characters in the expression.");
+                    return;
+                }
+            }
+            if (openParenCount != closeParenCount)
+            {
+                Console.WriteLine("Error: Unbalanced parentheses.");
+                return;
+            }
 
             // Check if the expression contains syntax errors
             if (!CheckSyntax(expression))
@@ -30,7 +57,7 @@ namespace LogicalExpressions
             {
                 // Parse the function definition
                 string functionName = tokens[1];
-                string functionExpression = tokens[2];
+                string functionExpression = tokens[3];
 
                 // Check if the function definition contains syntax errors
                 if (!CheckSyntax(functionExpression))
@@ -81,17 +108,17 @@ namespace LogicalExpressions
         // Checks for invalid syntax
         static bool CheckSyntax(string expression)
         {
-            // Check for invalid characters
-            if (expression.Contains("&") && expression.Contains("|") && expression.Contains("!"))
-            {
-                return false;
-            }
-
-            // Check for unbalanced parentheses
             int openParenCount = 0;
             int closeParenCount = 0;
             foreach (char c in expression)
             {
+                // Check for invalid characters
+                if (c != '&' && c != '|' && c != '!' && c != '(' && c != ')' && (c < '0' || c > '9'))
+                {
+                    return false;
+                }
+
+                // Check for unbalanced parentheses
                 if (c == '(')
                 {
                     openParenCount++;
@@ -147,7 +174,6 @@ namespace LogicalExpressions
                 int result = (operandValue == 0) ? 1 : 0;
                 return result;
             }
-
             // Check for the AND operator
             else if (expression.Contains("&"))
             {
@@ -158,15 +184,14 @@ namespace LogicalExpressions
                 string leftOperand = expression.Substring(0, index);
                 string rightOperand = expression.Substring(index + 1);
 
-                // Evaluate the operands
+                // Evaluate both operands
                 int leftOperandValue = EvaluateExpression(leftOperand);
                 int rightOperandValue = EvaluateExpression(rightOperand);
 
-                // Perform the AND operation
+                // Calculate the result
                 int result = (leftOperandValue == 1 && rightOperandValue == 1) ? 1 : 0;
                 return result;
             }
-
             // Check for the OR operator
             else if (expression.Contains("|"))
             {
@@ -177,19 +202,17 @@ namespace LogicalExpressions
                 string leftOperand = expression.Substring(0, index);
                 string rightOperand = expression.Substring(index + 1);
 
-                // Evaluate the operands
+                // Evaluate both operands
                 int leftOperandValue = EvaluateExpression(leftOperand);
                 int rightOperandValue = EvaluateExpression(rightOperand);
 
-                // Perform the OR operation
+                // Calculate the result
                 int result = (leftOperandValue == 1 || rightOperandValue == 1) ? 1 : 0;
                 return result;
             }
-
-            // Otherwise, the expression is a single operand
+            // If the expression contains no operators, simply evaluate it as an integer
             else
             {
-                // Convert the operand to an integer
                 int result = Int32.Parse(expression);
                 return result;
             }
