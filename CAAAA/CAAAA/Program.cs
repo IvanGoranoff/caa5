@@ -1,4 +1,5 @@
-﻿using System;
+
+using System;
 using System.Collections.Generic;
 
 namespace LogicalExpressions
@@ -14,6 +15,13 @@ namespace LogicalExpressions
             Console.WriteLine("Please enter the logical expression:");
             string expression = Console.ReadLine();
 
+            // Check if the expression contains syntax errors
+            if (!CheckSyntax(expression))
+            {
+                Console.WriteLine("Error: Invalid syntax.");
+                return;
+            }
+
             // Parse the expression
             string[] tokens = expression.Split(' ');
 
@@ -23,6 +31,20 @@ namespace LogicalExpressions
                 // Parse the function definition
                 string functionName = tokens[1];
                 string functionExpression = tokens[2];
+
+                // Check if the function definition contains syntax errors
+                if (!CheckSyntax(functionExpression))
+                {
+                    Console.WriteLine("Error: Invalid syntax.");
+                    return;
+                }
+
+                // Check if the function name is already in use
+                if (functions.ContainsKey(functionName))
+                {
+                    Console.WriteLine("Error: Function '{0}' is already defined.", functionName);
+                    return;
+                }
 
                 // Add the function to the dictionary
                 functions.Add(functionName, functionExpression);
@@ -44,7 +66,7 @@ namespace LogicalExpressions
                     string functionExpression = functions[functionName];
 
                     // Evaluate the function
-                    int result = EvaluateFunction(functionExpression, arguments);
+                    int result = EvaluateFunction(functionExpression, arguments, functions);
 
                     // Print the result
                     Console.WriteLine("Result: {0}", result);
@@ -56,13 +78,49 @@ namespace LogicalExpressions
             }
         }
 
+        // Checks for invalid syntax
+        static bool CheckSyntax(string expression)
+        {
+            // Check for invalid characters
+            if (expression.Contains("&") && expression.Contains("|") && expression.Contains("!"))
+            {
+                return false;
+            }
+
+            // Check for unbalanced parentheses
+            int openParenCount = 0;
+            int closeParenCount = 0;
+            foreach (char c in expression)
+            {
+                if (c == '(')
+                {
+                    openParenCount++;
+                }
+                else if (c == ')')
+                {
+                    closeParenCount++;
+                }
+            }
+            if (openParenCount != closeParenCount)
+            {
+                return false;
+            }
+            return true;
+        }
+
         // Evaluates a logical expression
-        static int EvaluateFunction(string expression, List<string> arguments)
+        static int EvaluateFunction(string expression, List<string> arguments, Dictionary<string, string> functions)
         {
             // Replace the function arguments with their values
             for (int i = 0; i < arguments.Count; i++)
             {
                 expression = expression.Replace("arg" + i, arguments[i]);
+            }
+
+            // Replace the user defined functions with their expression
+            foreach (KeyValuePair<string, string> kvp in functions)
+            {
+                expression = expression.Replace(kvp.Key, kvp.Value);
             }
 
             // Evaluate the expression
@@ -89,6 +147,7 @@ namespace LogicalExpressions
                 int result = (operandValue == 0) ? 1 : 0;
                 return result;
             }
+
             // Check for the AND operator
             else if (expression.Contains("&"))
             {
@@ -107,6 +166,7 @@ namespace LogicalExpressions
                 int result = (leftOperandValue == 1 && rightOperandValue == 1) ? 1 : 0;
                 return result;
             }
+
             // Check for the OR operator
             else if (expression.Contains("|"))
             {
@@ -125,6 +185,7 @@ namespace LogicalExpressions
                 int result = (leftOperandValue == 1 || rightOperandValue == 1) ? 1 : 0;
                 return result;
             }
+
             // Otherwise, the expression is a single operand
             else
             {
