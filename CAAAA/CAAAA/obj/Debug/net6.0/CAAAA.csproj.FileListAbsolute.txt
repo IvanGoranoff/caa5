@@ -1,0 +1,15 @@
+C:\Users\ivan.goranov\source\repos\CAAAA\CAAAA\bin\Debug\net6.0\CAAAA.exe
+C:\Users\ivan.goranov\source\repos\CAAAA\CAAAA\bin\Debug\net6.0\CAAAA.deps.json
+C:\Users\ivan.goranov\source\repos\CAAAA\CAAAA\bin\Debug\net6.0\CAAAA.runtimeconfig.json
+C:\Users\ivan.goranov\source\repos\CAAAA\CAAAA\bin\Debug\net6.0\CAAAA.dll
+C:\Users\ivan.goranov\source\repos\CAAAA\CAAAA\bin\Debug\net6.0\CAAAA.pdb
+C:\Users\ivan.goranov\source\repos\CAAAA\CAAAA\obj\Debug\net6.0\CAAAA.csproj.AssemblyReference.cache
+C:\Users\ivan.goranov\source\repos\CAAAA\CAAAA\obj\Debug\net6.0\CAAAA.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\ivan.goranov\source\repos\CAAAA\CAAAA\obj\Debug\net6.0\CAAAA.AssemblyInfoInputs.cache
+C:\Users\ivan.goranov\source\repos\CAAAA\CAAAA\obj\Debug\net6.0\CAAAA.AssemblyInfo.cs
+C:\Users\ivan.goranov\source\repos\CAAAA\CAAAA\obj\Debug\net6.0\CAAAA.csproj.CoreCompileInputs.cache
+C:\Users\ivan.goranov\source\repos\CAAAA\CAAAA\obj\Debug\net6.0\CAAAA.dll
+C:\Users\ivan.goranov\source\repos\CAAAA\CAAAA\obj\Debug\net6.0\refint\CAAAA.dll
+C:\Users\ivan.goranov\source\repos\CAAAA\CAAAA\obj\Debug\net6.0\CAAAA.pdb
+C:\Users\ivan.goranov\source\repos\CAAAA\CAAAA\obj\Debug\net6.0\CAAAA.genruntimeconfig.cache
+C:\Users\ivan.goranov\source\repos\CAAAA\CAAAA\obj\Debug\net6.0\ref\CAAAA.dll
